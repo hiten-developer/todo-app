@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Doto — Get things done</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Mulish:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+  <!-- TOAST NOTIFICATION -->
+  <div class="toast" id="toast"></div>
+
+  <!-- ======================================================
+       AUTH PAGE — Login / Signup
+  ======================================================= -->
+  <div class="page active" id="page-auth">
+    <div class="auth-wrapper">
+
+      <!-- Brand -->
+      <div class="auth-brand">
+        <div class="logo-box">
+          <svg viewBox="0 0 32 32" fill="none">
+            <rect x="3" y="3" width="26" height="26" rx="7" stroke="currentColor" stroke-width="2.2"/>
+            <polyline points="9,16 14,21 23,11" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h1>doto.</h1>
+        <p>Minimal tasks. Maximum focus.</p>
+      </div>
+
+      <!-- Card -->
+      <div class="auth-card">
+        <div class="auth-tabs">
+          <button class="auth-tab active" id="tab-login"  onclick="switchTab('login')">Sign In</button>
+          <button class="auth-tab"        id="tab-signup" onclick="switchTab('signup')">Sign Up</button>
+        </div>
+
+        <!-- Login Form -->
+        <div class="form visible" id="form-login">
+          <div class="field">
+            <label>Email address</label>
+            <input type="email" id="login-email" placeholder="you@example.com"
+              onkeydown="if(event.key==='Enter') login()"/>
+          </div>
+          <div class="field">
+            <label>Password</label>
+            <input type="password" id="login-pass" placeholder="Your password"
+              onkeydown="if(event.key==='Enter') login()"/>
+          </div>
+          <button class="btn-main" id="btn-login" onclick="login()">
+            <span>Sign In</span>
+            <svg viewBox="0 0 16 16" fill="none">
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="auth-error" id="login-err"></div>
+        </div>
+
+        <!-- Signup Form -->
+        <div class="form" id="form-signup">
+          <div class="field">
+            <label>Full Name</label>
+            <input type="text" id="signup-name" placeholder="Your name"
+              onkeydown="if(event.key==='Enter') signup()"/>
+          </div>
+          <div class="field">
+            <label>Email address</label>
+            <input type="email" id="signup-email" placeholder="you@example.com"
+              onkeydown="if(event.key==='Enter') signup()"/>
+          </div>
+          <div class="field">
+            <label>Password</label>
+            <input type="password" id="signup-pass" placeholder="Minimum 6 characters"
+              onkeydown="if(event.key==='Enter') signup()"/>
+          </div>
+          <button class="btn-main" id="btn-signup" onclick="signup()">
+            <span>Create Account</span>
+            <svg viewBox="0 0 16 16" fill="none">
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="auth-error" id="signup-err"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ======================================================
+       APP PAGE — Dashboard
+  ======================================================= -->
+  <div class="page" id="page-app">
+    <div class="app-shell">
+
+      <!-- ---- SIDEBAR ---- -->
+      <aside class="sidebar">
+        <div class="sidebar-top">
+          <!-- Logo -->
+          <div class="sidebar-logo">
+            <svg viewBox="0 0 32 32" fill="none">
+              <rect x="3" y="3" width="26" height="26" rx="7" stroke="currentColor" stroke-width="2.2"/>
+              <polyline points="9,16 14,21 23,11" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>doto.</span>
+          </div>
+          <!-- User -->
+          <div class="sidebar-user">
+            <div class="user-avatar" id="user-avatar">U</div>
+            <div>
+              <div class="user-name"  id="user-name-text">User</div>
+              <div class="user-email" id="user-email-text">user@email.com</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="sidebar-stats">
+          <div class="sstat">
+            <span class="sstat-num"   id="stat-total">0</span>
+            <span class="sstat-label">Total</span>
+          </div>
+          <div class="sstat accent">
+            <span class="sstat-num"   id="stat-left">0</span>
+            <span class="sstat-label">Active</span>
+          </div>
+          <div class="sstat green">
+            <span class="sstat-num"   id="stat-done">0</span>
+            <span class="sstat-label">Done</span>
+          </div>
+        </div>
+
+        <!-- Nav filters -->
+        <nav class="sidebar-nav">
+          <button class="nav-item active" onclick="setFilter('all',this)">
+            <svg viewBox="0 0 16 16" fill="none">
+              <rect x="2" y="2" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.8"/>
+            </svg>
+            All Tasks
+          </button>
+          <button class="nav-item" onclick="setFilter('active',this)">
+            <svg viewBox="0 0 16 16" fill="none">
+              <circle cx="8" cy="8" r="5" stroke="currentColor" stroke-width="1.8"/>
+            </svg>
+            Active
+          </button>
+          <button class="nav-item" onclick="setFilter('done',this)">
+            <svg viewBox="0 0 16 16" fill="none">
+              <polyline points="2,8 6,12 14,4" stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Completed
+          </button>
+        </nav>
+
+        <button class="btn-logout" onclick="logout()">
+          <svg viewBox="0 0 16 16" fill="none">
+            <path d="M6 3H3a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h3" stroke="currentColor"
+              stroke-width="1.8" stroke-linecap="round"/>
+            <path d="M10 5l3 3-3 3M13 8H6" stroke="currentColor" stroke-width="1.8"
+              stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Sign Out
+        </button>
+      </aside>
+
+      <!-- ---- MAIN CONTENT ---- -->
+      <main class="main-content">
+        <div class="main-header">
+          <div>
+            <h2 class="main-title" id="main-title">All Tasks</h2>
+            <p class="main-sub"   id="main-sub">0 tasks</p>
+          </div>
+        </div>
+
+        <!-- Add todo bar -->
+        <div class="add-bar">
+          <div class="add-input-wrap">
+            <svg class="add-icon" viewBox="0 0 16 16" fill="none">
+              <line x1="8" y1="2" x2="8" y2="14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <line x1="2" y1="8" x2="14" y2="8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <input
+              class="add-input"
+              id="new-todo-input"
+              placeholder="Add a new task and press Enter..."
+              onkeydown="if(event.key==='Enter') addTodo()"
+            />
+          </div>
+          <button class="btn-add" onclick="addTodo()">Add Task</button>
+        </div>
+
+        <!-- Task list renders here -->
+        <div class="todo-list" id="todo-list">
+          <div class="loader">
+            <div class="loader-dot"></div>
+            <div class="loader-dot"></div>
+            <div class="loader-dot"></div>
+          </div>
+        </div>
+      </main>
+
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
