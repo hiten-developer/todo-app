@@ -3,9 +3,7 @@ const Todo = require('../models/Todo')
 const getTodos = async(req,res) => {
     try{
         const todos = await Todo.find({userId : req.user.id})
-        return res.status(200).json({
-            todo_list : todos
-        })
+        return res.status(200).json(todos)
 
     }
     catch(err){
@@ -38,9 +36,7 @@ const createTodo = async(req,res) => {
 const updateTodo = async(req,res) => {
     try{
         const updatedTodo = await Todo.findByIdAndUpdate(req.params.id,req.body,{new: true})
-        return res.status(200).json({
-            updated_todo : updatedTodo
-        })
+        return res.status(200).json(updatedTodo)
     }
     catch(err){
         return res.status(500).json({
