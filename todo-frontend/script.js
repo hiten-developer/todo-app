@@ -225,7 +225,7 @@ async function addTodo() {
     const data = await apiFetch('/todos', 'POST', { title });
 
     // Backend todo object return karta hai
-    const newTodo = data.todo || data;
+    const newTodo = data.new_todo || data.todo || data  // ✅
     todos.unshift(newTodo);   // list ke upar add karo
     render();
     showToast('Task added ✓');
