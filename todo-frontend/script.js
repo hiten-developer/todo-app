@@ -12,7 +12,7 @@
    Local development ke liye: http://localhost:5000
    Deploy karne ke baad: https://your-app.onrender.com
    ============================================================ */
-const API_BASE = 'http://localhost:5000';
+const API_BASE = 'https://todo-backend-0i8s.onrender.com';
 
 /* ============================================================
    STATE — App ka saara data yahan store hoga
